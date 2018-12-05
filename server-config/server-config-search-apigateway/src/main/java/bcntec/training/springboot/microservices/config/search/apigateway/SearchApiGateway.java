@@ -96,38 +96,3 @@ class AppConfiguration {
     }
 }
 
-@Slf4j
-@Configuration
-class EurekaConfig {
-
-
-    @Bean
-    public EurekaInstanceConfigBean eurekaInstanceConfigBean() {
-        InetUtils instance = new InetUtils(new InetUtilsProperties());
-        EurekaInstanceConfigBean config = new EurekaInstanceConfigBean(instance);
-        try {
-            log.info("Ereka Pre Configuring-3");
-            AmazonInfo info = AmazonInfo.Builder.newBuilder().autoBuild("eureka");
-            config.setDataCenterInfo(info);
-            info.getMetadata().put(AmazonInfo.MetaDataKey.publicHostname.getName(), info.get(AmazonInfo.MetaDataKey.publicIpv4));
-            config.setHostname(info.get(AmazonInfo.MetaDataKey.localHostname));
-
-            log.info("hostname" + info.get(AmazonInfo.MetaDataKey.localHostname));
-            log.info("IP" + info.get(AmazonInfo.MetaDataKey.publicIpv4));
-
-            //    config.setIpAddress(info.get(AmazonInfo.MetaDataKey.publicIpv4));
-
-            config.setNonSecurePortEnabled(true);
-            config.setNonSecurePort(0); //change this later
-            //    config.setPreferIpAddress(true);
-
-            // config.setIpAddress("54.85.107.37");
-            config.getMetadataMap().put("instanceId", info.get(AmazonInfo.MetaDataKey.localHostname));
-
-            // log.info("info" + info);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return config;
-    }
-}
