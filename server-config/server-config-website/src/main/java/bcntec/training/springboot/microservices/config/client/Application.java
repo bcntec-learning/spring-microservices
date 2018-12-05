@@ -13,7 +13,7 @@ import java.util.Set;
 @Slf4j
 @SpringBootApplication
 public class Application implements CommandLineRunner {
-    @Value("${website.status}")
+    //@Value("${website.status}")
     private Boolean status;
 
     RestTemplate searchClient = new RestTemplate();
@@ -38,7 +38,7 @@ public class Application implements CommandLineRunner {
         Flight[] flights = null;
         SearchQuery searchQuery = new SearchQuery("NYC", "SFO", "22-JAN-18");
         try {
-            flights = searchClient.postForObject("http://35.163.60.130:8090/search/get", searchQuery, Flight[].class);
+            flights = searchClient.postForObject("http://localhost:8090/search/get", searchQuery, Flight[].class);
 
             Arrays.asList(flights).forEach(flight -> log.info(" flight >" + flight));
 
@@ -60,7 +60,7 @@ public class Application implements CommandLineRunner {
         long bookingId = 0;
         try {
             //long bookingId = bookingClient.postForObject("http://book-service/booking/create", booking, long.class);
-            bookingId = bookingClient.postForObject("http://35.163.60.130:8060/booking/create", booking, long.class);
+            bookingId = bookingClient.postForObject("http://localhost:8060/booking/create", booking, long.class);
             log.info("Booking created " + bookingId);
         } catch (Exception e) {
             log.error("BOOKING SERVICE NOT AVAILABLE...!!!");
@@ -70,7 +70,7 @@ public class Application implements CommandLineRunner {
         if (bookingId == 0) return;
         try {
             CheckInRecord checkIn = new CheckInRecord("Franc", "Gavin", "28C", null, "BF101", "22-JAN-18", bookingId);
-            long checkinId = checkInClient.postForObject("http://35.163.60.130:8070/checkin/create", checkIn, long.class);
+            long checkinId = checkInClient.postForObject("http://localhost:8070/checkin/create", checkIn, long.class);
             log.info("Checked IN " + checkinId);
         } catch (Exception e) {
             log.error("CHECK IN SERVICE NOT AVAILABLE...!!!");
