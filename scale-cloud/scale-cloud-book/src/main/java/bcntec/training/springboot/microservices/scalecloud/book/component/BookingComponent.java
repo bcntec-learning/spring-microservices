@@ -43,7 +43,7 @@ public class BookingComponent {
         this.fareServiceProxy = fareServiceProxy;
     }
 
-    public long book(BookingRecord record) {
+    public Long book(BookingRecord record) {
         log.info("calling fares to get fare");
         //call fares to get fare
         //	Fare fare = restTemplate.getForObject(fareServiceUrl+FareURL +"/get?flightNumber="+record.getFlightNumber()+"&flightDate="+record.getFlightDate(),Fare.class);

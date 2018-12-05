@@ -1,6 +1,7 @@
 package  bcntec.training.springboot.microservices.config.client;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -12,6 +13,8 @@ import java.util.Set;
 @Slf4j
 @SpringBootApplication
 public class Application implements CommandLineRunner {
+    @Value("${website.status}")
+    private Boolean status;
 
     RestTemplate searchClient = new RestTemplate();
 
@@ -27,6 +30,10 @@ public class Application implements CommandLineRunner {
 
     @Override
     public void run(String... strings) throws Exception {
+
+
+        System.out.println("website status="+status);
+
         //Search for a flight
         Flight[] flights = null;
         SearchQuery searchQuery = new SearchQuery("NYC", "SFO", "22-JAN-18");
